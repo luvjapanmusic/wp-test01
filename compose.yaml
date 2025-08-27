@@ -1,0 +1,25 @@
+services:
+  wordpress:
+    image: wordpress:6.5-apache
+    environment:    
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wp
+      WORDPRESS_DB_PASSWORD: wp
+      WORDPRESS_DB_NAME: wp
+      WORDPRESS_CONFIG_EXTRA: |
+        if (!empty($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+          $$_SERVER['HTTPS'] = 'on';
+        }
+
+        if (!empty($$_SERVER['HTTP_X_FORWARDED_HOST'])) {
+          $$_SERVER['HTTP_HOST'] = $$_SERVER['HTTP_X_FORWARDED_HOST'];
+        }
+    ports:
+      - "80:80"
+  db:
+    image: mysql:8.3
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: wp
