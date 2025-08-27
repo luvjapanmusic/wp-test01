@@ -16,6 +16,8 @@ services:
         }
     ports:
       - "80:80"
+    volumes:
+      - ./wordpress:/var/www/html
   db:
     image: mysql:8.3
     environment:
@@ -23,3 +25,8 @@ services:
       MYSQL_DATABASE: wp
       MYSQL_USER: wp
       MYSQL_PASSWORD: wp
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
